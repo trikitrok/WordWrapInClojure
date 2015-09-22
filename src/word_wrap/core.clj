@@ -4,8 +4,7 @@
   (clojure.string/trim (apply str (drop position line))))
 
 (defn- wrap-line-at [line position]
-  (str (clojure.string/trim (apply str (take position line)))
-       "\n"))
+  (str (clojure.string/trim (apply str (take position line))) "\n"))
 
 (defn- get-fitting-spaces-positions [line num-columns]
   (filter #(and (= (second %) \space) (< (first %) num-columns))
@@ -42,7 +41,10 @@
 (defn- extract-lines [text]
   (clojure.string/split text #"\n"))
 
+(def ^:private join-lines (partial clojure.string/join "\n"))
+
 (defn wrap [text num-columns]
-  (clojure.string/join
-    "\n"
-    (map #(wrap-line % num-columns) (extract-lines text))))
+  (->> text
+       extract-lines
+       (map #(wrap-line % num-columns))
+       join-lines))
