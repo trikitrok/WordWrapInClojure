@@ -1,11 +1,14 @@
 (ns word-wrap.core
   (:require [clojure.string :as string]))
 
+(def ^:private to-trimmed-string
+  (comp string/trim (partial apply str)))
+
 (defn- rest-of-line [line index]
-  (string/trim (apply str (drop index line))))
+  (to-trimmed-string (drop index line)))
 
 (defn- wrap-line-at [line index]
-  (str (string/trim (apply str (take index line))) "\n"))
+  (str (to-trimmed-string (take index line)) "\n"))
 
 (def ^:private indexes (partial map first))
 
