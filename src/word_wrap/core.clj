@@ -35,7 +35,10 @@
       (str (wrap-line-at line wrappping-position)
            (wrap-line (rest-of-line line wrappping-position) num-columns)))))
 
+(defn- extract-lines [text]
+  (clojure.string/split text #"\n"))
+
 (defn wrap [text num-columns]
   (clojure.string/join
     "\n"
-    (map #(wrap-line % num-columns) (clojure.string/split text #"\n"))))
+    (map #(wrap-line % num-columns) (extract-lines text))))
