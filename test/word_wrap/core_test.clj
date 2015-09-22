@@ -23,4 +23,10 @@
     (wrap "koko koko koko koko koko koko" 12) => "koko koko\nkoko koko\nkoko koko"
     (wrap
       "This koko should be easy unless there are hidden, or not so hidden, obstacles. Let's start!"
-      12) => "This koko\nshould be\neasy unless\nthere are\nhidden, or\nnot so\nhidden,\nobstacles.\nLet's start!"))
+      12) => "This koko\nshould be\neasy unless\nthere are\nhidden, or\nnot so\nhidden,\nobstacles.\nLet's start!")
+
+  (fact
+    "a text already splitted in lines gets each of its lines re-wrapped"
+    (wrap
+      "kokokoko\nkaka koko\nkoko koko"
+      6) => "kokoko\nko\nkaka\nkoko\nkoko\nkoko"))

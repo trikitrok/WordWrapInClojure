@@ -28,9 +28,14 @@
 (defn- fits? [line num-columns]
   (<= (count line) num-columns))
 
-(defn wrap [line num-columns]
+(defn- wrap-line [line num-columns]
   (if (fits? line num-columns)
     line
     (let [wrappping-position (compute-wrapping-position line num-columns)]
       (str (wrap-line-at line wrappping-position)
-           (wrap (rest-of-line line wrappping-position) num-columns)))))
+           (wrap-line (rest-of-line line wrappping-position) num-columns)))))
+
+(defn wrap [text num-columns]
+  (clojure.string/join
+    "\n"
+    (map #(wrap-line % num-columns) (clojure.string/split text #"\n"))))
