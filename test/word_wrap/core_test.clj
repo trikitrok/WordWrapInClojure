@@ -17,4 +17,5 @@
     "words with spaces that don't fit in the given columns number are wrapped
     at the space that is closest to the maximum column"
     (wrap "koko koko" 7) => "koko\nkoko"
-    (wrap "koko koko koko" 12) => "koko koko\nkoko"))
+    (wrap "koko koko koko" 12) => "koko koko\nkoko"
+    (wrap "koko koko koko koko koko koko" 12) => "koko koko\nkoko koko\nkoko koko"))
