@@ -17,9 +17,11 @@
       -1
       (first (last fitting-spaces-positions)))))
 
+(def ^:private valid-position? pos?)
+
 (defn- compute-wrapping-position [word num-columns]
   (let [last-space-position (compute-last-space-position word num-columns)]
-    (if (pos? last-space-position)
+    (if (valid-position? last-space-position)
       last-space-position
       num-columns)))
 
