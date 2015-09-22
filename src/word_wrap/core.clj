@@ -1,10 +1,10 @@
 (ns word-wrap.core)
 
-(defn- rest-of-line [line position]
-  (clojure.string/trim (apply str (drop position line))))
+(defn- rest-of-line [line index]
+  (clojure.string/trim (apply str (drop index line))))
 
-(defn- wrap-line-at [line position]
-  (str (clojure.string/trim (apply str (take position line))) "\n"))
+(defn- wrap-line-at [line index]
+  (str (clojure.string/trim (apply str (take index line))) "\n"))
 
 (def ^:private indexes (partial map first))
 
@@ -17,18 +17,17 @@
 (defn- fitting-spaces-indexes [line num-columns]
   (filter #(< % num-columns) (spaces-indexes line)))
 
-(defn- compute-last-space-position [line num-columns]
-  (let [fitting-spaces-positions (fitting-spaces-indexes line num-columns)]
-    (if (empty? fitting-spaces-positions)
-      -1
-      (last fitting-spaces-positions))))
+(defn- compute-last-space-index [line num-columns]
+  (if-let [index (last (fitting-spaces-indexes line num-columns))]
+    index
+    -1))
 
-(def ^:private valid-position? pos?)
+(def ^:private valid-index? pos?)
 
-(defn- compute-wrapping-position [line num-columns]
-  (let [last-space-position (compute-last-space-position line num-columns)]
-    (if (valid-position? last-space-position)
-      last-space-position
+(defn- compute-wrapping-index [line num-columns]
+  (let [last-space-index (compute-last-space-index line num-columns)]
+    (if (valid-index? last-space-index)
+      last-space-index
       num-columns)))
 
 (defn- fits? [line num-columns]
@@ -37,9 +36,9 @@
 (defn- line->wrapped-lines [wrapped-lines line num-columns]
   (if (fits? line num-columns)
     (conj wrapped-lines line)
-    (let [wrappping-position (compute-wrapping-position line num-columns)]
-      (recur (conj wrapped-lines (wrap-line-at line wrappping-position))
-             (rest-of-line line wrappping-position)
+    (let [index (compute-wrapping-index line num-columns)]
+      (recur (conj wrapped-lines (wrap-line-at line index))
+             (rest-of-line line index)
              num-columns))))
 
 (defn- wrap-line [line num-columns]
