@@ -7,14 +7,14 @@
   (str (clojure.string/trim (apply str (take position line))) "\n"))
 
 (defn- get-fitting-spaces-positions [line num-columns]
-  (filter #(and (= (second %) \space) (< (first %) num-columns))
-          (map-indexed #(vector %1 %2) line)))
+  (map first (filter #(and (= (second %) \space) (< (first %) num-columns))
+          (map-indexed #(vector %1 %2) line))))
 
 (defn- compute-last-space-position [line num-columns]
   (let [fitting-spaces-positions (get-fitting-spaces-positions line num-columns)]
     (if (empty? fitting-spaces-positions)
       -1
-      (first (last fitting-spaces-positions)))))
+      (last fitting-spaces-positions))))
 
 (def ^:private valid-position? pos?)
 
