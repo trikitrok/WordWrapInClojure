@@ -6,3 +6,10 @@
 (str (apply str (take 4 "kokokoko")) "\n" (apply str (drop 4 "koko
 )
 (str (apply str (take 4 "kokokoko")) "\n" (apply str (drop 4 "kokokoko")))
+(map-index identity  "koko")
+(map-indexed identity  "koko")
+(map-indexed "koko")
+(map-indexed #(vector %1 %2)  "koko")
+(select #(< (first %) 2)(map-indexed #(vector %1 %2)  "koko") )
+(filter #(< (first %) 2)(map-indexed #(vector %1 %2)  "koko") )
+(last (filter #(< (first %) 2)(map-indexed #(vector %1 %2)  "koko") ))

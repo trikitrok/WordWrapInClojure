@@ -7,11 +7,18 @@
   (str (clojure.string/trim (apply str (take position word)))
        "\n"))
 
+(defn- compute-last-space-position [word num-columns]
+  (let [space-positions (filter #(and (= (second %) \space) (< (first %) num-columns))
+                                      (map-indexed #(vector %1 %2) word))]
+    (if (empty? space-positions)
+      -1
+      (first (last space-positions)))))
+
 (defn- compute-wrapping-position [word num-columns]
-  (let [space-position (.indexOf word (str \space))]
-    (if (and (pos? space-position)
-             (<= space-position num-columns))
-      space-position
+  (let [last-space-position (compute-last-space-position word num-columns)]
+    (if (and (pos? last-space-position)
+             (<= last-space-position num-columns))
+      last-space-position
       num-columns)))
 
 (defn- fits? [word num-columns]
