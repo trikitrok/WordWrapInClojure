@@ -6,15 +6,19 @@
 (defn- wrap-line-at [line position]
   (str (clojure.string/trim (apply str (take position line))) "\n"))
 
-(defn- space-fits? [[index character] num-columns]
-  (and (= character \space) (< index num-columns)))
+(def ^:private indexes (partial map first))
 
-(defn- get-fitting-spaces-positions [line num-columns]
-  (map first (filter #(space-fits? % num-columns)
-                     (map-indexed #(vector %1 %2) line))))
+(defn- space? [[_ character]]
+  (= character \space))
+
+(defn- spaces-indexes [line]
+  (indexes (filter space? (map-indexed #(vector %1 %2) line))))
+
+(defn- fitting-spaces-indexes [line num-columns]
+  (filter #(< % num-columns) (spaces-indexes line)))
 
 (defn- compute-last-space-position [line num-columns]
-  (let [fitting-spaces-positions (get-fitting-spaces-positions line num-columns)]
+  (let [fitting-spaces-positions (fitting-spaces-indexes line num-columns)]
     (if (empty? fitting-spaces-positions)
       -1
       (last fitting-spaces-positions))))
