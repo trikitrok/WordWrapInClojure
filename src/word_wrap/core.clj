@@ -20,16 +20,16 @@
 
 (def ^:private not-found -1)
 
-(defn- compute-last-space-index [line num-columns]
+(defn- index-of-last-fitting-space [line num-columns]
   (if-let [index (last (fitting-spaces-indexes line num-columns))]
     index
     not-found))
 
-(def ^:private not-found? pos?)
+(def ^:private valid-index? pos?)
 
 (defn- compute-wrapping-index [line num-columns]
-  (let [index (compute-last-space-index line num-columns)]
-    (if (not-found? index)
+  (let [index (index-of-last-fitting-space line num-columns)]
+    (if (valid-index? index)
       index
       num-columns)))
 
