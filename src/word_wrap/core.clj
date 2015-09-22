@@ -1,15 +1,22 @@
 (ns word-wrap.core)
 
+(defn- rest-of-words [word position]
+  (clojure.string/trim (apply str (drop position word))))
+
 (defn- wrap-word-at [word position]
   (str (clojure.string/trim (apply str (take position word)))
-       "\n"
-       (clojure.string/trim (apply str (drop position word)))))
+       "\n"))
+
+(defn- compute-wrapping-position [word num-columns]
+  (let [space-position (.indexOf word (str \space))]
+    (if (and (pos? space-position)
+             (<= space-position num-columns))
+      space-position
+      num-columns)))
 
 (defn wrap [word num-columns]
   (if (<= (count word) num-columns)
     word
-    (let [space-position (.indexOf word (str \space))]
-      (if (and (pos? space-position)
-               (<= space-position num-columns))
-        (wrap-word-at word space-position)
-        (wrap-word-at word num-columns)))))
+    (let [wrappping-position (compute-wrapping-position word num-columns)]
+      (str (wrap-word-at word wrappping-position)
+           (wrap (rest-of-words word wrappping-position) num-columns)))))
