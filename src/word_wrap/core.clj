@@ -14,8 +14,11 @@
       space-position
       num-columns)))
 
+(defn- fits? [word num-columns]
+  (<= (count word) num-columns))
+
 (defn wrap [word num-columns]
-  (if (<= (count word) num-columns)
+  (if (fits? word num-columns)
     word
     (let [wrappping-position (compute-wrapping-position word num-columns)]
       (str (wrap-word-at word wrappping-position)
