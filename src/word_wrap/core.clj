@@ -17,17 +17,19 @@
 (defn- fitting-spaces-indexes [line num-columns]
   (filter #(< % num-columns) (spaces-indexes line)))
 
+(def ^:private not-found -1)
+
 (defn- compute-last-space-index [line num-columns]
   (if-let [index (last (fitting-spaces-indexes line num-columns))]
     index
-    -1))
+    not-found))
 
-(def ^:private valid-index? pos?)
+(def ^:private not-found? pos?)
 
 (defn- compute-wrapping-index [line num-columns]
-  (let [last-space-index (compute-last-space-index line num-columns)]
-    (if (valid-index? last-space-index)
-      last-space-index
+  (let [index (compute-last-space-index line num-columns)]
+    (if (not-found? index)
+      index
       num-columns)))
 
 (defn- fits? [line num-columns]
