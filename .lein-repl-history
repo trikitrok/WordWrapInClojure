@@ -1,0 +1,8 @@
+(take 4 "kokokoko")
+(str (take 4 "kokokoko"))
+(apply str (take 4 "kokokoko"))
+(apply str (take 4 "kokokoko") "\n" (drop 4 "kokokoko"))
+(str (apply str (take 4 "kokokoko")) "\n" (apply str (drop 4 "kokokoko"))))
+(str (apply str (take 4 "kokokoko")) "\n" (apply str (drop 4 "koko
+)
+(str (apply str (take 4 "kokokoko")) "\n" (apply str (drop 4 "kokokoko")))
