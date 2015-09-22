@@ -11,4 +11,9 @@
 
   (fact
     "words without spaces that don't fit in the given columns number are wrapped"
-    (wrap "kokokoko" 4) => "koko\nkoko"))
+    (wrap "kokokoko" 4) => "koko\nkoko")
+
+  (fact
+    "words with spaces that don't fit in the given columns number are wrapped
+    at the space that is closest to the maximum column"
+    (wrap "koko koko" 7) => "koko\nkoko"))
