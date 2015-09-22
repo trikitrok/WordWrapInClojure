@@ -6,9 +6,12 @@
 (defn- wrap-line-at [line position]
   (str (clojure.string/trim (apply str (take position line))) "\n"))
 
+(defn- space-fits? [[index character] num-columns]
+  (and (= character \space) (< index num-columns)))
+
 (defn- get-fitting-spaces-positions [line num-columns]
-  (map first (filter #(and (= (second %) \space) (< (first %) num-columns))
-          (map-indexed #(vector %1 %2) line))))
+  (map first (filter #(space-fits? % num-columns)
+                     (map-indexed #(vector %1 %2) line))))
 
 (defn- compute-last-space-position [line num-columns]
   (let [fitting-spaces-positions (get-fitting-spaces-positions line num-columns)]
