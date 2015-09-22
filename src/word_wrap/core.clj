@@ -1,10 +1,11 @@
-(ns word-wrap.core)
+(ns word-wrap.core
+  (:require [clojure.string :as string]))
 
 (defn- rest-of-line [line index]
-  (clojure.string/trim (apply str (drop index line))))
+  (string/trim (apply str (drop index line))))
 
 (defn- wrap-line-at [line index]
-  (str (clojure.string/trim (apply str (take index line))) "\n"))
+  (str (string/trim (apply str (take index line))) "\n"))
 
 (def ^:private indexes (partial map first))
 
@@ -47,9 +48,9 @@
   (apply str (line->wrapped-lines [] line num-columns)))
 
 (defn- extract-lines [text]
-  (clojure.string/split text #"\n"))
+  (string/split text #"\n"))
 
-(def ^:private join-lines (partial clojure.string/join "\n"))
+(def ^:private join-lines (partial string/join "\n"))
 
 (defn wrap [text num-columns]
   (->> text
