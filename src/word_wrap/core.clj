@@ -16,7 +16,10 @@
   (= character \space))
 
 (defn- spaces-indexes [line]
-  (indexes (filter space? (map-indexed #(vector %1 %2) line))))
+  (->> line
+       (map-indexed #(vector %1 %2))
+       (filter space?)
+       indexes))
 
 (defn- fitting-spaces-indexes [line max-columns]
   (filter #(< % max-columns) (spaces-indexes line)))
