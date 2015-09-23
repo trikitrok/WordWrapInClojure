@@ -21,20 +21,23 @@
        (filter space?)
        indexes))
 
-(defn- fitting-spaces-indexes [line max-columns]
-  (filter #(< % max-columns) (spaces-indexes line)))
-
 (def ^:private not-found -1)
 
-(defn- index-of-last-fitting-space [line max-columns]
-  (if-let [index (last (fitting-spaces-indexes line max-columns))]
+(defn- last-or-else-not-found [indexes]
+  (if-let [index (last indexes)]
     index
     not-found))
+
+(defn- index-of-last-fitting-space [max-columns line]
+  (->> line
+       spaces-indexes
+       (filter #(< % max-columns))
+       last-or-else-not-found))
 
 (def ^:private valid-index? pos?)
 
 (defn- compute-wrapping-index [line max-columns]
-  (let [index (index-of-last-fitting-space line max-columns)]
+  (let [index (index-of-last-fitting-space max-columns line)]
     (if (valid-index? index)
       index
       max-columns)))
