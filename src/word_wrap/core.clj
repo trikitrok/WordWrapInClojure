@@ -8,7 +8,7 @@
   (comp to-trimmed-string (partial drop)))
 
 (defn- wrap-line-at [index line]
-  (str (to-trimmed-string (take index line)) "\n"))
+  (str (to-trimmed-string (take index line)) \newline))
 
 (def ^:private indexes (partial map first))
 
@@ -59,7 +59,7 @@
 (defn- extract-lines [text]
   (string/split text #"\n"))
 
-(def ^:private join-lines (partial string/join "\n"))
+(def ^:private join-lines (partial string/join \newline))
 
 (defn wrap [text max-columns]
   (->> text
