@@ -10,29 +10,8 @@
 (defn- wrap-line-at [index line]
   (str (to-trimmed-string (take index line)) \newline))
 
-(def ^:private indexes (partial map first))
-
-(defn- space? [[_ character]]
-  (= character \space))
-
-(defn- spaces-indexes [line]
-  (->> line
-       (map-indexed #(vector %1 %2))
-       (filter space?)
-       indexes))
-
-(def ^:private not-found -1)
-
-(defn- last-or-else-not-found [indexes]
-  (if-let [index (last indexes)]
-    index
-    not-found))
-
 (defn- index-of-last-fitting-space [max-columns line]
-  (->> line
-       spaces-indexes
-       (filter #(< % max-columns))
-       last-or-else-not-found))
+  (.lastIndexOf (take max-columns line) \space))
 
 (def ^:private valid-index? pos?)
 
